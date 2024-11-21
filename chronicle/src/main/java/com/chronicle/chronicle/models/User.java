@@ -23,7 +23,12 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Comment> comments; // Comments made by the user
 
-    @ManyToMany(mappedBy = "followers")
+    @ManyToMany
+    @JoinTable(
+      name = "user_following", 
+      joinColumns = @JoinColumn(name = "follower_id"), 
+      inverseJoinColumns = @JoinColumn(name = "following_id")
+    )
     private List<User> following; // Users that the user is following
 
     @ManyToMany(mappedBy = "following")
@@ -126,3 +131,4 @@ public class User {
         this.followers = followers;
     }
 }
+
