@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Firebase Admin SDK ###
+**/chronicle-d679f-firebase-adminsdk-97v1w-44594ea257.json
+
+### Application Properties ###
+**/application.properties
