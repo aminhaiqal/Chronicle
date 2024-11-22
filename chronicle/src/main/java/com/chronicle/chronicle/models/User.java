@@ -10,7 +10,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Internal user ID
 
-    private String oktaId; // Okta ID (unique identifier from Okta)
+    private String firebaseUid; // Firebase UID (unique identifier from Firebase)
     private String email;
     private String fullName;
     private String profilePictureUrl; // URL to the user's profile picture
@@ -38,8 +38,8 @@ public class User {
     public User() {
     }
 
-    public User(String oktaId, String email, String fullName, String profilePictureUrl, String bio, List<Article> articles, List<Comment> comments, List<User> following, List<User> followers) {
-        this.oktaId = oktaId;
+    public User(String firebaseUid, String email, String fullName, String profilePictureUrl, String bio, List<Article> articles, List<Comment> comments, List<User> following, List<User> followers) {
+        this.firebaseUid = firebaseUid;
         this.email = email;
         this.fullName = fullName;
         this.profilePictureUrl = profilePictureUrl;
@@ -59,12 +59,12 @@ public class User {
         this.id = id;
     }
 
-    public String getOktaId() {
-        return oktaId;
+    public String getFirebaseUid() {
+        return firebaseUid;
     }
 
-    public void setOktaId(String oktaId) {
-        this.oktaId = oktaId;
+    public void setFirebaseUid(String oktaId) {
+        this.firebaseUid = oktaId;
     }
 
     public String getEmail() {
