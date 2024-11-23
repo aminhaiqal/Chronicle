@@ -1,8 +1,8 @@
 import GoogleButton from "./google"
-import { SignUpForm } from "./form"
+import { AuthForm } from "@/app/auth/auth"
 import { Separator } from "@/components/ui/separator"
 
-export default function Signup() {
+export default function Auth() {
   return (
     <div className="flex items-center justify-center flex-col min-h-screen bg-zinc-900 gap-6">
       <div className="flex flex-col gap-2 items-center justify-center mb-6">
@@ -13,8 +13,7 @@ export default function Signup() {
       </div>
       <GoogleButton />
       <Separator className="w-full sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4" />
-      <SignUpForm />
-      <p className="text-sm text-muted-foreground text-center">Already have an account? <a href="#"><b className="text-zinc-100">Sign In</b></a></p>
+      <AuthForm />
     </div>
   )
 }
