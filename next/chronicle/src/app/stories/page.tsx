@@ -1,9 +1,17 @@
 import { Header } from "./header";
+import { NotiBanner } from "./noti-banner";
+import Story from "./story";
 
 export default function Stories() {
     return (
-        <div className="flex flex-col min-h-screen gap-6 bg-zinc-800">
-            <Header />
+        <div className="min-h-screen bg-zinc-800">
+            <div className="flex flex-col">
+                <Header />
+                <NotiBanner />
+                <div className="mt-4">
+                    <Story />
+                </div>
+            </div>
         </div>
     );
 }
