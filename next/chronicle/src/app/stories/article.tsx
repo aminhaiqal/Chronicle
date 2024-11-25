@@ -8,12 +8,7 @@ import { Separator } from "@/components/ui/separator"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Button } from "@/components/ui/button"
-import ThumbsUpIcon from "@/assets/icons/thumbs-up-stroke-standard"
-import MoreVerticalIcon from "@/assets/icons/more-vertical-stroke-standard"
-import Comment02Icon from "@/assets/icons/comment-02-stroke-standard"
-import BookmarkAdd02Icon from "@/assets/icons/bookmark-add-02-stroke-standard"
-import Share03Icon from "@/assets/icons/share-03-stroke-standard"
-
+import { MoreVerticalIcon, ThumbsUpIcon, Comment02Icon, BookmarkAdd02Icon, Share03Icon } from "@icons/index"
 
 export default function Article() {
     return (
