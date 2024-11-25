@@ -3,21 +3,23 @@
 import { useEffect, useRef, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@radix-ui/react-separator";
+import Article from "./article";
 
 type Tab = {
   value: string;
   label: string;
-  content: string;
+  content: JSX.Element;
 };
 
 const tabData: Tab[] = [
-  { value: "langchain", label: "Langchain", content: "Story about langchain here." },
-  { value: "rust", label: "Rust", content: "Story about rust here." },
-  { value: "python", label: "Python", content: "Story about python here." },
-  { value: "java", label: "Java", content: "Story about java here." },
-  { value: "go", label: "Go", content: "Story about go here." },
-  { value: "javascript", label: "JavaScript", content: "Story about javascript here." },
-  { value: "typescript", label: "TypeScript", content: "Story about typescript here." },
+  { value: "all", label: "All", content: <Article /> },
+  { value: "langchain", label: "Langchain", content: <div>Story about langchain here.</div> },
+  { value: "rust", label: "Rust", content: <div>Story about rust here.</div> },
+  { value: "python", label: "Python", content: <div>Story about python here.</div> },
+  { value: "java", label: "Java", content: <div>Story about java here.</div> },
+  { value: "go", label: "Go", content: <div>Story about go here.</div> },
+  { value: "javascript", label: "JavaScript", content: <div>Story about javascript here.</div> },
+  { value: "typescript", label: "TypeScript", content: <div>Story about typescript here.</div> },
 ];
 
 export default function Story() {
@@ -39,24 +41,23 @@ export default function Story() {
   }, []);
 
   return (
-    <div className="flex justify-center h-screen">
+    <div className="flex justify-center h-fit mb-44">
       <Tabs defaultValue={tabData[0].value} className="w-full flex flex-col align-middle">
-        <TabsList
-          ref={tabsListRef}
-          className={`flex space-x-2 overflow-x-auto max-w-full overflow-y-hidden ${
-            isOverflowing ? "justify-start" : "justify-center"
-          }`}
-          style={{ scrollbarWidth: "none" }}
-        >
-          {tabData.map((tab) => (
-            <TabsTrigger key={tab.value} value={tab.value}>
-              {tab.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-
-        <Separator className="my-4 h-px bg-zinc-500" />
-
+        <div>
+          <TabsList
+            ref={tabsListRef}
+            className={`flex space-x-2 max-w-full overflow-y-hidden ${isOverflowing ? "justify-start" : "justify-center"
+              }`}
+            style={{ scrollbarWidth: "none" }}
+          >
+            {tabData.map((tab) => (
+              <TabsTrigger key={tab.value} value={tab.value}>
+                {tab.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+          <Separator className="my-4 h-px bg-zinc-500" />
+        </div>
         <div className="ml-4 mr-4">
           {tabData.map((tab) => (
             <TabsContent key={tab.value} value={tab.value}>
