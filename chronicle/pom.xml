@@ -43,16 +43,16 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.okta.spring</groupId>
-			<artifactId>okta-spring-boot-starter</artifactId>
-			<version>3.0.7</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+    		<groupId>jakarta.servlet</groupId>
+    		<artifactId>jakarta.servlet-api</artifactId>
+    		<version>6.0.0</version> <!-- Use the appropriate version for your project -->
+    		<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -76,10 +76,14 @@
 		</dependency>
 		<dependency>
   			<groupId>com.google.firebase</groupId>
-  			<artifactId>firebase-admin</artifactId>
-  		<version>9.4.1</version>
-</dependency>
-	</dependencies>
+  				<artifactId>firebase-admin</artifactId>
+  			<version>9.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+ </dependencies>
 
 	<build>
 		<plugins>
@@ -97,5 +101,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

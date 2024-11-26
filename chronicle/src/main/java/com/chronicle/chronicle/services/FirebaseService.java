@@ -9,6 +9,9 @@ import com.google.firebase.auth.FirebaseToken;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class FirebaseService {
     public static void initializeFirebase() throws IOException {
         FileInputStream serviceAccount = new FileInputStream("src/main/resources/chronicle-d679f-firebase-adminsdk-97v1w-44594ea257.json");

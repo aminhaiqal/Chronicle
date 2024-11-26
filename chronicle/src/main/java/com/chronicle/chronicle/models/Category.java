@@ -10,6 +10,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // Category ID
 
+    @Column(unique = true, nullable = false)
     private String name; // Name of the category
     private String description; // Description of the category
 
