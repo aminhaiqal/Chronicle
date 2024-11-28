@@ -36,9 +36,6 @@ export function AuthForm() {
         setLoading(true);
         try {
             await handleAuth(values.email, values.password);
-        } catch (error) {
-            console.error("Authentication error:", error);
-            form.setError("email", { message: "Unable to authorize." });
         } finally {
             setLoading(false);
         }
