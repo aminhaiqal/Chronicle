@@ -5,15 +5,9 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormMessage,
-} from "@/components/ui/form"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useAuth } from "@/hooks/useAuth";
 
 const formSchema = z.object({
     email: z.string().email({
@@ -32,9 +26,15 @@ export function AuthForm() {
             password: "",
         },
     })
-
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
+    
+    const { handleAuth } = useAuth();
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        try {
+            await handleAuth(values.email, values.password);
+        } catch (error) {
+            console.error("Authentication error:", error);
+            form.setError("email", { message: "Unable to authorize." });
+        }
     }
 
     return (
