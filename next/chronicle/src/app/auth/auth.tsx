@@ -3,11 +3,13 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useAuth } from "@/hooks/useAuth";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
     email: z.string().email({
@@ -26,14 +28,19 @@ export function AuthForm() {
             password: "",
         },
     })
-    
+
     const { handleAuth } = useAuth();
+    const [loading, setLoading] = useState(false);
+
     async function onSubmit(values: z.infer<typeof formSchema>) {
+        setLoading(true);
         try {
             await handleAuth(values.email, values.password);
         } catch (error) {
             console.error("Authentication error:", error);
             form.setError("email", { message: "Unable to authorize." });
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -65,9 +72,18 @@ export function AuthForm() {
                     )}
                 />
                 <FormDescription className="text-center pb-2">
-                    By signing up, you agree to our <a href="#" style={{textDecoration: 'underline'}}>Terms of Service</a> and <a href="#" style={{textDecoration: 'underline'}}>Privacy Policy</a>.
+                    By signing up, you agree to our <a href="#" style={{ textDecoration: 'underline' }}>Terms of Service</a> and <a href="#" style={{ textDecoration: 'underline' }}>Privacy Policy</a>.
                 </FormDescription>
-                <Button type="submit" className="w-full">Sign Up</Button>
+                <Button type="submit" className="w-full" disabled={loading}>
+                    {loading ? (
+                        <>
+                            <Loader2 className="animate-spin" /> Authorizing...
+                        </>
+                    ) : (
+                        "Sign Up"
+                    )}
+                </Button>
+
             </form>
         </Form>
     )

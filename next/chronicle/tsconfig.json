@@ -20,7 +20,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@icons/*": ["./src/assets/icons/*"]
+      "@icons/*": ["./src/assets/icons/*"],
+      "@redux/*": ["./src/services/redux/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
