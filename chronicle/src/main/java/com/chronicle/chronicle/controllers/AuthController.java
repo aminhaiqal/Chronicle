@@ -2,7 +2,7 @@ package com.chronicle.chronicle.controllers;
 
 import com.chronicle.chronicle.models.User;
 import com.chronicle.chronicle.repositories.UserRepository;
-import com.chronicle.chronicle.services.FirebaseService;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @Autowired
-    private FirebaseService firebaseService;
+    private FirebaseAuth firebaseService;
 
     @Autowired
     private UserRepository userRepository;
