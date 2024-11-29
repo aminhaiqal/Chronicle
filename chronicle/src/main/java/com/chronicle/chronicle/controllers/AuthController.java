@@ -25,8 +25,8 @@ public class AuthController {
             FirebaseToken decodedToken = firebaseService.verifyIdToken(idToken);
             String firebaseUid = decodedToken.getUid();
             String email = decodedToken.getEmail();
-            String fullName = decodedToken.getName(); // Firebase provides name if available
-            String profilePictureUrl = decodedToken.getPicture(); // Profile picture URL, if available
+            String fullName = decodedToken.getName();
+            String profilePictureUrl = decodedToken.getPicture();
 
             // Check if the user already exists in the database
             User existingUser = userRepository.findByFirebaseUid(firebaseUid).orElse(null);

@@ -1,4 +1,4 @@
-// hooks/useAuth.ts
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
@@ -9,34 +9,32 @@ import { ToastAction } from "@/components/ui/toast"
 
 export function useAuth() {
     const dispatch = useDispatch();
-    const { toast } = useToast()
+    const { toast } = useToast();
+
+    const handleUserCredentials = async (userCredential: any) => {
+        const user = userCredential.user;
+        const idToken = await user.getIdToken();
+        const refreshToken = user.refreshToken;
+
+        console.log("User:", user);
+        console.log("ID Token:", idToken);
+        console.log("Refresh Token:", refreshToken);
+
+        dispatch(authSuccess({ user, idToken, refreshToken }));
+        return { user, idToken };
+    };
 
     const handleAuth = useCallback(async (email: string, password: string) => {
         dispatch(authRequest());
 
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-            const idToken = await user.getIdToken();
-
-            console.log("User signed up:", user);
-            console.log("ID Token:", idToken);
-
-            dispatch(authSuccess({ user, idToken }));
-            return { user, idToken };
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            return await handleUserCredentials(userCredential);
         } catch (error: any) {
             if (error.code === "auth/email-already-in-use") {
                 try {
                     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                    const user = userCredential.user;
-                    const idToken = await user.getIdToken();
-
-                    console.log("User signed in:", user);
-                    console.log("ID Token:", idToken);
-
-                    dispatch(authSuccess({ user, idToken }));
-                    return { user, idToken };
+                    return await handleUserCredentials(userCredential);
                 } catch (signInError) {
                     console.error("Error during sign in:", signInError);
                     dispatch(authFailure("Incorrect password or other sign-in issue."));
@@ -60,6 +58,7 @@ export function useAuth() {
                 throw new Error("Unable to authorize.");
             }
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, toast]);
 
     return { handleAuth };

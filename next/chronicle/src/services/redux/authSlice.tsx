@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface AuthState {
     user: any | null;
     idToken: string | null;
+    resfreshToken: string | null;
     loading: boolean;
     error: string | null;
 }
@@ -11,6 +12,7 @@ interface AuthState {
 const initialState: AuthState = {
     user: null,
     idToken: null,
+    resfreshToken: null,
     loading: false,
     error: null,
 };
@@ -23,9 +25,10 @@ const authSlice = createSlice({
             state.loading = true;
             state.error = null;
         },
-        authSuccess(state, action: PayloadAction<{ user: any, idToken: string }>) {
+        authSuccess(state, action: PayloadAction<{ user: any, idToken: string, refreshToken: string }>) {
             state.user = action.payload.user;
             state.idToken = action.payload.idToken;
+            state.resfreshToken = action.payload.user.refreshToken;
             state.loading = false;
         },
         authFailure(state, action: PayloadAction<string>) {
