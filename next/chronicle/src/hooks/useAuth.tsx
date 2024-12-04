@@ -17,8 +17,9 @@ export function useAuth() {
         const refreshToken = user.refreshToken;
 
         console.log("User:", user);
-        console.log("ID Token:", idToken);
-        console.log("Refresh Token:", refreshToken);
+
+        localStorage.setItem("idToken", idToken);
+        localStorage.setItem("refreshToken", refreshToken);
 
         dispatch(authSuccess({ user, idToken, refreshToken }));
         return { user, idToken };
