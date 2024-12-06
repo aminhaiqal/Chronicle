@@ -1,3 +1,5 @@
+"use client";
+
 import { auth } from '@/services/firebase-config';
 
 export const getToken = async (forceRefresh = false): Promise<string | null> => {

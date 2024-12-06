@@ -1,3 +1,5 @@
+"use client";
+
 import axios from 'axios';
 import { getToken } from '@/services/tokenService';
 
@@ -7,8 +9,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
     async (config) => {
-        // Get the token outside of React hooks
-        const token = await getToken(true); // Force refresh if needed
+        const token = await getToken(true);
 
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
