@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useToken } from '@/hooks/useToken';
+import { getToken } from '@/services/tokenService';
 
 const axiosInstance = axios.create({
     baseURL: 'http://localhost:9090/api',
@@ -7,8 +7,8 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
     async (config) => {
-        const { getIdToken } = useToken();
-        const token = await getIdToken();
+        // Get the token outside of React hooks
+        const token = await getToken(true); // Force refresh if needed
 
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;

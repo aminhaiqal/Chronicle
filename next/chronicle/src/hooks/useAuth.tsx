@@ -1,41 +1,46 @@
+"use client";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/services/firebase-config";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "@/services/firebase-config";
 import { authRequest, authSuccess, authFailure } from "@redux/authSlice";
 import { useToast } from "@/hooks/use-toast.ts";
 import { ToastAction } from "@/components/ui/toast"
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { FirebaseError } from "firebase/app";
 
 export function useAuth() {
     const dispatch = useDispatch();
     const { toast } = useToast();
 
-    const handleUserCredentials = async (userCredential: any) => {
+    const handleUserCredentials = async (userCredential: any, role: string) => {
         const user = userCredential.user;
         const idToken = await user.getIdToken();
-        const refreshToken = user.refreshToken;
 
-        console.log("User:", user);
+        await setDoc(doc(db, "users", user.uid), {
+            role: role,
+        });
 
-        localStorage.setItem("idToken", idToken);
-        localStorage.setItem("refreshToken", refreshToken);
+        dispatch(authSuccess({ user }));
 
-        dispatch(authSuccess({ user, idToken, refreshToken }));
+        console.log("User signed in:", user);
         return { user, idToken };
     };
 
-    const handleAuth = useCallback(async (email: string, password: string) => {
+    const handleAuth = useCallback(async (email: string, password: string, role: string) => {
         dispatch(authRequest());
 
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            return await handleUserCredentials(userCredential);
-        } catch (error: any) {
+            return await handleUserCredentials(userCredential, role);
+        } catch (error: FirebaseError | any) {
             if (error.code === "auth/email-already-in-use") {
                 try {
                     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                    return await handleUserCredentials(userCredential);
+                    return await handleUserCredentials(userCredential, role);
                 } catch (signInError) {
                     console.error("Error during sign in:", signInError);
                     dispatch(authFailure("Incorrect password or other sign-in issue."));

@@ -1,8 +1,11 @@
+"use client";
+
 import { Header } from "./header";
 import { NotiBanner } from "./noti-banner";
 import Story from "./story";
+import withAuth from "@/utils/withAuth";
 
-export default function Stories() {
+function Stories() {
     return (
         <div className="min-h-screen bg-zinc-800">
             <div className="flex flex-col">
@@ -15,3 +18,5 @@ export default function Stories() {
         </div>
     );
 }
+
+export default withAuth(Stories);

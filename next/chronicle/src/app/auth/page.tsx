@@ -1,3 +1,5 @@
+"use client";
+
 import GoogleButton from "./google"
 import { AuthForm } from "@/app/auth/auth"
 import { Separator } from "@/components/ui/separator"
