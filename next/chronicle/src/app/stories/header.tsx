@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import Notification01Icon from "@/assets/icons/notification-01-stroke-standard";
 import Search01Icon from "@/assets/icons/search-01-stroke-standard";
