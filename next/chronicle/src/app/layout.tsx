@@ -14,9 +14,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${GeistSans.variable} ${GeistMono.variable}`}>
-        <Provider store={store}>
+    <Provider store={store}>
+      <html lang="en" suppressHydrationWarning>
+        <body className={`${GeistSans.variable} ${GeistMono.variable}`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -26,8 +26,8 @@ export default function RootLayout({
             <main>{children}</main>
             <Toaster />
           </ThemeProvider>
-        </Provider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </Provider>
   );
 }
