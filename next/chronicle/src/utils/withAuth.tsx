@@ -15,6 +15,7 @@ function withAuth<T extends Record<string, unknown>>(WrappedComponent: Component
 
         // Get the Firebase user from Redux
         const user = useSelector((state: RootState) => state.auth.user);
+        console.log("User from Redux:", user);
 
         useEffect(() => {
             const validateUser = async () => {

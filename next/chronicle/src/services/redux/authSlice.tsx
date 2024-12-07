@@ -26,7 +26,6 @@ const authSlice = createSlice({
         authSuccess(state, action: PayloadAction<{ user: SerializableUser }>) {
             state.user = action.payload.user;
             state.loading = false;
-            console.log("User signed in:", action.payload.user);
         },
         authFailure(state, action: PayloadAction<string>) {
             state.error = action.payload;

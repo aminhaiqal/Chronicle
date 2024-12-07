@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast.ts";
 import { ToastAction } from "@/components/ui/toast"
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FirebaseError } from "firebase/app";
-import { extractSerializableUser } from "@/utils/extractSerializableUser";
+import { serializeUser } from "@/utils/serializeUser";
 
 export function useAuth() {
     const dispatch = useDispatch();
@@ -18,7 +18,7 @@ export function useAuth() {
 
     const handleUserCredentials = async (userCredential: any) => {
         const user = userCredential.user;
-        const serializableUser = extractSerializableUser(user);
+        const serializableUser = serializeUser(user);
     
         dispatch(authSuccess({ user: serializableUser }));
     
