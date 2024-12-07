@@ -31,12 +31,11 @@ export function AuthForm() {
 
     const { handleAuth } = useAuth();
     const [loading, setLoading] = useState(false);
-    const [role] = useState("user");
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setLoading(true);
         try {
-            await handleAuth(values.email, values.password, role);
+            await handleAuth(values.email, values.password);
         } finally {
             setLoading(false);
         }

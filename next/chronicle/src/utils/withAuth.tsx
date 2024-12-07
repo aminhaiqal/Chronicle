@@ -1,54 +1,54 @@
 "use client";
 
 import { useEffect, useState, ComponentType } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { RootState } from "@redux/store";
-import { useToken } from "@/hooks/useToken";
+import { getToken } from "@/services/tokenService";
+import { authFailure } from "@redux/authSlice";
 
 function withAuth<T extends Record<string, unknown>>(WrappedComponent: ComponentType<T>) {
-  const AuthenticatedComponent = (props: T) => {
-    const router = useRouter();
-    const { token, getIdToken, isTokenValid } = useToken();
-    const [loading, setLoading] = useState(true);
+    const AuthenticatedComponent = (props: T) => {
+        const router = useRouter();
+        const dispatch = useDispatch();
+        const [loading, setLoading] = useState(true);
 
-    // Use the stored token from Redux state
-    const storedToken = useSelector((state: RootState) => state.auth.idToken);
+        // Get the Firebase user from Redux
+        const user = useSelector((state: RootState) => state.auth.user);
 
-    useEffect(() => {
-      const validateToken = async () => {
-        try {
-          if (!storedToken && !token) {
-            throw new Error("No token found");
-          }
+        useEffect(() => {
+            const validateUser = async () => {
+                try {
+                    if (!user) {
+                        throw new Error("No user found in state");
+                    }
 
-          if (!token) {
-            await getIdToken(true); // Force refresh to ensure validity
-          }
+                    // Attempt to fetch the token
+                    const token = await getToken(true);
+                    if (!token) {
+                        throw new Error("Failed to fetch token");
+                    }
 
-          setLoading(false);
-        } catch (error) {
-          console.error("Token validation failed:", error);
-          setLoading(false);
-          router.push("/auth"); // Redirect to login if token is invalid
+                    // If everything is valid, stop loading
+                    setLoading(false);
+                } catch (error) {
+                    console.error("Authentication failed:", error);
+                    dispatch(authFailure("Authentication failed"));
+                    router.push("/auth"); // Redirect to login
+                }
+            };
+
+            validateUser();
+        }, [user, dispatch, router]);
+
+        if (loading) {
+            return <div>Loading...</div>; // Show a loading indicator while validating
         }
-      };
 
-        validateToken();
-    }, [token, storedToken, getIdToken, router]);
+        return <WrappedComponent {...props} />;
+    };
 
-    if (loading) {
-      return <div>Loading...</div>; // Show a loading indicator until validation completes
-    }
-
-    if (!isTokenValid) {
-      return <div>Unauthorized</div>; // Optional: handle unauthorized access
-    }
-
-    return <WrappedComponent {...props} />;
-  };
-
-  return AuthenticatedComponent;
+    return AuthenticatedComponent;
 }
 
 export default withAuth;
