@@ -1,17 +1,22 @@
 package com.chronicle.chronicle.services;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.chronicle.chronicle.dto.ArticleDTO;
-import com.chronicle.chronicle.models.*;
+import com.chronicle.chronicle.models.Article;
+import com.chronicle.chronicle.models.Category;
+import com.chronicle.chronicle.models.Tag;
+import com.chronicle.chronicle.models.User;
 import com.chronicle.chronicle.repositories.ArticleRepository;
 import com.chronicle.chronicle.repositories.CategoryRepository;
 import com.chronicle.chronicle.repositories.TagRepository;
 import com.chronicle.chronicle.repositories.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
+import jakarta.transaction.Transactional;
 
 @Service
 public class ArticleService {
@@ -27,7 +32,8 @@ public class ArticleService {
         this.tagRepository = tagRepository;
         this.categoryRepository = categoryRepository;
     }
-
+    
+    @Transactional
     public Article createArticle(ArticleDTO articleDTO) {
         User user = userRepository.findById(articleDTO.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + articleDTO.getUserId()));
